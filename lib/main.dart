@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'profile_screen.dart';
+
 // Entry point of the application
 void main() {
   runApp(const MyApp());
@@ -18,8 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true, // Enables Material 3 design
       ),
-      home: const MyHomePage(
-          title: "Training 1"), // Setting MyHomePage as the home screen
+      home: ProfileScreen(), // Setting ProfileScreen as the home screen
     );
   }
 }
@@ -163,6 +164,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Image.network(
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx0w8Fb0eL5EB7kNviLUOUTxXfFtUxnVNHfA&s",
             ),
+
+            CircleAvatar(
+              radius: 60,
+              backgroundImage: NetworkImage(
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx0w8Fb0eL5EB7kNviLUOUTxXfFtUxnVNHfA&s",
+              ),
+            )
           ],
         ),
       ),
