@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'profile_screen.dart';
+import 'package:training_1/login_screen.dart';
+import 'package:training_1/profile_screen.dart';
 
 // Entry point of the application
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true, // Enables Material 3 design
       ),
-      home: ProfileScreen(), // Setting ProfileScreen as the home screen
+      home: LoginScreen(), // Setting ProfileScreen as the home screen
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'notification_screen.dart';
+import 'package:training_1/notification_screen.dart';
 
 /// Profile screen displaying user details and allowing navigation to notifications.
 class ProfileScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       /// AppBar with title and notification icon.
       appBar: AppBar(
         title: const Text("Shrijal Shrestha"),
