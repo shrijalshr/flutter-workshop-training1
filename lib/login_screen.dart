@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// LoginScreen is a StatefulWidget since it contains mutable state (e.g., email input and checkbox state)
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -8,64 +9,58 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String email = "";
-  TextEditingController emailController = TextEditingController(text: "");
-  TextEditingController passwordController = TextEditingController(text: "");
+  // Controllers are used to retrieve user input from TextFields
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // Boolean variable to store the state of the "Remember Me" checkbox
   bool isRememberMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(
-          24,
-        ),
+        padding: const EdgeInsets.all(24), // Adds padding to the entire screen for better UI spacing
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 12,
+          mainAxisAlignment: MainAxisAlignment.center, // Centers the column content vertically
+          crossAxisAlignment: CrossAxisAlignment.center, // Centers the column content horizontally
           children: [
-            SizedBox(height: 100),
+            const SizedBox(height: 100), // Adds vertical space before the logo
+            // Displays the application logo
             Image.asset(
               "assets/images/logo.png",
               height: 100,
               width: 100,
             ),
-            Text(
+            // Heading for the Login Screen
+            const Text(
               "Login",
               style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             ),
-            Text(
+            // Subtitle for the login screen
+            const Text(
               "Welcome, Let's log you in.",
-              style: TextStyle(
-                fontSize: 12,
-              ),
+              style: TextStyle(fontSize: 12),
             ),
-            SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24), // Adds spacing before the input fields
+            // Email Input Field
             CustomTextField(
               controller: emailController,
               label: 'Email',
-              keyboardType: TextInputType.emailAddress,
-              prefixIcon: Icon(
-                Icons.email_outlined,
-                size: 24,
-              ),
-              onSubmitted: (s) {},
+              keyboardType: TextInputType.emailAddress, // Ensures the correct keyboard is shown
+              prefixIcon: const Icon(Icons.email_outlined, size: 24),
             ),
+            // Password Input Field
             CustomTextField(
               controller: passwordController,
               label: 'Password',
-              obscureText: true,
-              keyboardType: TextInputType.visiblePassword,
-              prefixIcon: Icon(
-                Icons.lock_outline_rounded,
-                size: 24,
-              ),
-              onSubmitted: (s) {},
+              obscureText: true, // Hides password input for security
+              keyboardType: TextInputType.visiblePassword, // Shows password-specific keyboard
+              prefixIcon: const Icon(Icons.lock_outline_rounded, size: 24),
             ),
             Row(
               children: [
+                // Remember Me Checkbox
                 Checkbox(
                   value: isRememberMe,
                   activeColor: Colors.black,
@@ -75,64 +70,62 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   },
                 ),
-                Text(
+                const Text(
                   "Remember me",
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(fontSize: 12),
                 ),
-                Spacer(),
+                const Spacer(), // Pushes "Forgot your password?" text to the right
+                // Forgot Password Gesture
                 GestureDetector(
                   onTap: () {
+                    // Placeholder action for forgot password functionality
                     print("Pressed Forgot Password");
                   },
-                  child: Text(
+                  child: const Text(
                     "Forgot your password?",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12, color: Colors.blue),
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: 12), // Spacing before the login button
+            // Login Button
             CustomButton(
               label: "Login",
               onPressed: () {
+                // Displays a temporary message when the login button is pressed
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Login Pressed!")),
                 );
               },
             ),
-            SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8), // Spacing before the sign-up prompt
+            // Sign Up Prompt
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?"),
-                SizedBox(
-                  width: 8,
-                ),
+                const Text("Don't have an account?"),
+                const SizedBox(width: 8), // Small gap between text and link
                 GestureDetector(
                   onTap: () {
+                    // Shows a loading dialog when "Sign up" is clicked (temporary UI feedback)
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return AlertDialog(
-                            content: Container(
-                                color: Colors.white,
+                          return const AlertDialog(
+                            content: SizedBox(
                                 height: 100,
                                 width: 100,
-                                child: CircularProgressIndicator()),
+                                child: Center(child: CircularProgressIndicator())),
                           );
                         });
                   },
-                  child: Text(
+                  child: const Text(
                     "Sign up",
                     style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        decoration: TextDecoration.underline),
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue),
                   ),
                 ),
               ],
@@ -144,40 +137,38 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+// Custom Button Widget
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.label,
-    this.onPressed,
+    required this.onPressed,
   });
 
   final String label;
-  final Function()? onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.maxFinite,
-      height: 48,
+      width: double.infinity, // Makes the button full-width
+      height: 48, // Standard button height
       child: ElevatedButton(
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Sign up Pressed!")),
-          );
-        },
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), // Rounded button corners
+          backgroundColor: Colors.black, // Button background color
         ),
         child: Text(
           label,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white), // Button text color
         ),
       ),
     );
   }
 }
 
+// Custom Text Field Widget
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
@@ -186,7 +177,6 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     required this.keyboardType,
     required this.prefixIcon,
-    this.onSubmitted,
   });
 
   final TextEditingController controller;
@@ -194,24 +184,26 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final Widget prefixIcon;
-  final Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        label: Text(label),
-        filled: true,
-        fillColor: Color(0xffD9D9D9),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        obscureText: obscureText, // Determines whether text should be hidden (for passwords)
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          labelText: label, // Adds a label to the input field
+          filled: true,
+          fillColor: Colors.grey.shade200, // Light gray background for better UI contrast
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8), // Rounded corners for better aesthetics
+            borderSide: BorderSide.none, // Removes the border
+          ),
         ),
       ),
-      onSubmitted: onSubmitted,
     );
   }
 }
