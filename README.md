@@ -1,4 +1,4 @@
-# Flutter Training - Day 1
+# Flutter Training
 
 ## Introduction
 This document serves as a guide for the first day of Flutter training. It includes an overview of the topics covered, possible questions with answers, and necessary commands or instructions.
