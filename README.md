@@ -127,5 +127,140 @@ Press `r` in the terminal while running the app or click the **Hot Reload** butt
 ### Stop the running application
 Press `Ctrl + C` in the terminal.
 
+
+
+
+
+## Flutter To-Do App Implementation
+
+This section provides detailed information on a To-Do list application implemented in Flutter.
+
+### Features of the To-Do App
+
+- Add new tasks
+- Mark tasks as completed
+- Reorder tasks
+- Save and retrieve tasks using Shared Preferences
+
+### Code Breakdown
+
+#### `TodoScreen.dart`
+
+This is the main screen of the application which includes:
+
+- A header displaying "Simple list"
+- A `TodoListScreen` widget containing the list of tasks
+
+#### `TodoListScreen.dart`
+
+This screen is responsible for:
+
+- Displaying a list of tasks
+- Allowing tasks to be marked as completed
+- Reordering tasks within their respective sections (Pending and Completed)
+- Adding new tasks
+- Saving and retrieving tasks from `SharedPreferences`
+
+### Task Model (`task_model.dart`)
+
+The `Task` class represents a task in the To-Do app. It contains:
+
+- `title`: The task description
+- `isCompleted`: A boolean value indicating completion status
+- `index`: Task order in the list
+- `id`: A unique identifier for each task
+
+```dart
+class Task {
+  String id;
+  String title;
+  bool isCompleted;
+  int index;
+
+  Task({
+    required this.title,
+    this.isCompleted = false,
+    required this.index,
+  }) : id = const Uuid().v4();
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'isCompleted': isCompleted,
+      'index': index,
+    };
+  }
+
+  factory Task.fromMap(Map<String, dynamic> map) {
+    return Task(
+      title: map['title'],
+      isCompleted: map['isCompleted'],
+      index: map['index'],
+    );
+  }
+}
+```
+
+## Instructions for Running the To-Do App
+
+### 1. Setting Up the Flutter Project
+
+Run the following command in your terminal or command prompt:
+
+```bash
+flutter create todo_app
+cd todo_app
+```
+
+### 2. Running the App
+
+Ensure you have a device/emulator running, then execute:
+
+```bash
+flutter run
+```
+
+### 3. Saving and Retrieving Tasks
+
+The app uses `SharedPreferences` to persist tasks. To save a task:
+
+```dart
+void saveToPrefs() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Task task1 = _tasks[0];
+  Map<String, dynamic> task1Map = task1.toMap();
+  String task1String = jsonEncode(task1Map);
+  prefs.setString("task", task1String);
+}
+```
+
+To retrieve a saved task:
+
+```dart
+void getTaskFromPrefs() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? task = prefs.getString("task");
+  Map<String, dynamic> taskMap = jsonDecode(task!);
+  Task taskFromMap = Task.fromMap(taskMap);
+  print(taskFromMap);
+}
+```
+
+### 4. Reordering Tasks
+
+Reordering is implemented using `ReorderableListView`.
+
+```dart
+ReorderableListView(
+  onReorder: (oldIndex, newIndex) {
+    setState(() {
+      final Task item = _tasks.removeAt(oldIndex);
+      _tasks.insert(newIndex, item);
+    });
+  },
+)
+```
+
 ---
 
